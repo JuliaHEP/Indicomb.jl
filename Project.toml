@@ -12,6 +12,7 @@ SHA = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 
 [compat]
 JSON3 = "1"
+DataStructures = "0.18"
 julia = "1"
 
 [extras]
