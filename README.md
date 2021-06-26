@@ -53,4 +53,4 @@ HTTP/1.1 200 OK
 ```
 
 # TODO
-[ ] Ship a HTML page generation script and a CSS
+- [ ] Ship a HTML page generation script and a CSS
