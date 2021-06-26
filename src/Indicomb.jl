@@ -15,6 +15,30 @@ import Base.Threads: @threads
 
 _format_dt(dt) = Dates.format(dt, dateformat"y-m-d")
 
+"""
+    get_events_catnum_name(baseurl, cat_num, evt_name; params...)
+
+Main API for basic users, given base url (Indico server domain), category number and event title filter,
+return a list of (`detail=subcontributions`) events JSON object.
+
+# Example
+```
+julia> get_events_catnum_name("https://indico.cern.ch", 1X3X, "XXXXX"; from="2021-06-10", to="2021-06-30", apikey=".....", secretkey="....");
+JSON3.Object{Vector{UInt8}, SubArray{UInt64, 1, Vector{UInt64}, Tuple{UnitRange{Int64}}, true}} with 29 entries:
+  :_type            => "Conference"
+  :id               => "10521XX"
+  :title            => "XXXXX group meeting"
+  :description      => ""
+  :startDate        => {…
+  :timezone         => "Europe/Zurich"
+  :endDate          => {…
+  :room             => ""
+  :location         => ""
+  :address          => ""
+  ...
+```
+
+"""
 function get_events_catnum_name(
     baseurl,
     cat_num,
@@ -40,7 +64,7 @@ end
 """
     indico_request(path; params...)
 
-Build a path?params url object (without the base domain). The key feature is to construct `signature=` query
+Build a `path?params` url object (without the base domain). The key feature is to construct `signature=` query
 based on the SHA1 HMAC algo. The construction of `signature` only cares about path, not base-site domain.
 """
 function indico_request(path; params...)
@@ -71,6 +95,21 @@ function filter_events(title_name::Union{AbstractString,Regex}, category)
 end
 
 # performe a one-time update and then return digest
+"""
+    sha1_hmac(key, data)
+Return a 1-cycle daupted `digest` given key and data.
+
+# Example
+```
+julia> bytes2hex(Indicomb.sha1_hmac("123", "Julia"))
+"eca18118a715a32ab5f340f57d917c1e2eec96f5"
+```
+!!! note
+    Indico uses *sorted*, query parameters as data. i.e.:
+
+    Given: `"https://cern.ch/export/categ/1135.json?from=2020&apikey=8"`, `data` into this function will be
+    `"apikey=8&from=2020"` (string from comes from `HTTP.escapeuri`).
+"""
 function sha1_hmac(key, data)
     h = HMAC_CTX(SHA1_CTX(), Vector{UInt8}(key))
     update!(h, Vector{UInt8}(data))
