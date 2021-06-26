@@ -2,12 +2,6 @@ module Indicomb
 
 export get_events_catnum_name
 
-# Write your package code here.
-
-"""
-indicomb.py - combs through indico and builds a listing of your meetings for display as a webpage or importing to iCal
-"""
-
 using JSON3, HTTP, Dates, SHA
 import DataStructures: OrderedDict
 import HTTP: escapeuri
