@@ -6,11 +6,11 @@ DocMeta.setdocmeta!(Indicomb, :DocTestSetup, :(using Indicomb); recursive=true)
 makedocs(;
     modules=[Indicomb],
     authors="Jerry Ling <proton@jling.dev> and contributors",
-    repo="https://github.com/Jerry Ling/Indicomb.jl/blob/{commit}{path}#{line}",
+    repo="https://github.com/Moelf/Indicomb.jl/blob/{commit}{path}#{line}",
     sitename="Indicomb.jl",
     format=Documenter.HTML(;
         prettyurls=get(ENV, "CI", "false") == "true",
-        canonical="https://Jerry Ling.github.io/Indicomb.jl",
+        canonical="https://Moelf.github.io/Indicomb.jl",
         assets=String[],
     ),
     pages=[
@@ -19,5 +19,5 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/Jerry Ling/Indicomb.jl",
+    repo="github.com/Moelf/Indicomb.jl",
 )
